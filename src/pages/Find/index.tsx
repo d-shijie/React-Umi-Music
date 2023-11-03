@@ -1,6 +1,6 @@
 import { Card } from 'antd';
 
-const HomePage: React.FC = () => {
+const Find: React.FC = () => {
   return (
     <div>
       <Card className="flex justify-center items-center">
@@ -17,4 +17,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default Find;

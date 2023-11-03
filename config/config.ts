@@ -22,7 +22,8 @@ export default defineConfig({
   tailwindcss: {},
   proxy: {
     '/api': {
-      target: 'http://localhost:3000/',
+      target:
+        'https://service-p0ngyeui-1318284787.gz.apigw.tencentcs.com/release/',
       changeOrigin: true,
       pathRewrite: { '^/api': '' },
     },

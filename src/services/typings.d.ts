@@ -2,7 +2,7 @@
 declare namespace API {
   interface Response {
     code: number;
-    data: unknown;
+    data: any;
     success?: boolean;
   }
   interface UserInfo {
