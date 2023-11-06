@@ -1,36 +1,52 @@
 import { checkQrStatusApi, createQrApi, createQrKeyApi } from '@/services/user';
-import { Outlet } from '@umijs/max';
+import { Outlet, useModel } from '@umijs/max';
+import { message } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import UserDrawer from './components/UserDrawer';
 
 const Layout: React.FC = () => {
-  const [qrKey, setQrkey] = useState<string>('');
   const [qrUrl, setQrUrl] = useState<string>('');
-  const createQrKey = async () => {
-    const { data } = await createQrKeyApi();
-    setQrkey(data.unikey);
-  };
-  const createQr = async () => {
-    const { data } = await createQrApi(qrKey);
+  const [status, setStatus] = useState<number>(801);
+  const [timer, setTimer] = useState<NodeJS.Timeout>();
+  const createQr = async (key: string) => {
+    const { data } = await createQrApi(key);
     setQrUrl(data.qrurl);
   };
-  const checkQrStatus = async () => {
-    const { data } = await checkQrStatusApi(qrKey);
-    console.log(data);
+  const checkQrStatus = async (key: string) => {
+    const { code, message: msg } = await checkQrStatusApi(key);
+    setStatus(code);
+    switch (code) {
+      case 800:
+        message.info(msg);
+        clearInterval(timer);
+        break;
+      case 801:
+        break;
+      case 802:
+        message.info(msg);
+        break;
+      case 803:
+        clearInterval(timer);
+        break;
+    }
   };
-  useEffect(() => {
-    createQrKey();
-  }, []);
+  const createQrKey = async () => {
+    const { data } = await createQrKeyApi();
+    createQr(data.unikey);
+    setTimer(setInterval(() => checkQrStatus(data.unikey), 2000));
+  };
+  const { loginStatus } = useModel('user');
 
   useEffect(() => {
-    createQr();
-    const internaler = setInterval(checkQrStatus, 1000);
+    if (!loginStatus) {
+      createQrKey();
+    }
     return () => {
-      clearInterval(internaler);
+      clearInterval(timer);
     };
-  }, [qrKey]);
+  }, []);
 
   const userDrawerRef = useRef<any>(null);
   const handleOpenDrawer = () => {
@@ -42,7 +58,7 @@ const Layout: React.FC = () => {
       <section className="p-[12px]">
         <Header openDrawer={handleOpenDrawer} />
       </section>
-      <UserDrawer ref={userDrawerRef} qrUrl={qrUrl} />
+      <UserDrawer ref={userDrawerRef} qrUrl={qrUrl} status={status} />
       <section className="p-[12px]">
         <Outlet />
       </section>

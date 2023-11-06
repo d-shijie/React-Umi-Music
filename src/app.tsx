@@ -67,10 +67,11 @@ export const request: RequestConfig = {
   },
   requestInterceptors: [
     (config: any) => {
-      config.Authorization = 'Your Token';
-      return {
-        ...config,
-      };
+      if (config.method?.toLowerCase() === 'post') {
+        const nowStamp = new Date().getTime();
+        config.url = config.url + `?t=${nowStamp}`;
+      }
+      return config;
     },
   ],
   responseInterceptors: [

@@ -4,6 +4,7 @@ declare namespace API {
     code: number;
     data: any;
     success?: boolean;
+    message: string;
   }
   interface UserInfo {
     id?: string;
