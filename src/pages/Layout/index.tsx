@@ -1,4 +1,4 @@
-import { createQrApi, createQrKeyApi } from '@/services/user';
+import { checkQrStatusApi, createQrApi, createQrKeyApi } from '@/services/user';
 import { Outlet } from '@umijs/max';
 import { useEffect, useRef, useState } from 'react';
 import Footer from './components/Footer';
@@ -16,10 +16,21 @@ const Layout: React.FC = () => {
     const { data } = await createQrApi(qrKey);
     setQrUrl(data.qrurl);
   };
+  const checkQrStatus = async () => {
+    const { data } = await checkQrStatusApi(qrKey);
+    console.log(data);
+  };
   useEffect(() => {
     createQrKey();
-    createQr();
   }, []);
+
+  useEffect(() => {
+    createQr();
+    const internaler = setInterval(checkQrStatus, 1000);
+    return () => {
+      clearInterval(internaler);
+    };
+  }, [qrKey]);
 
   const userDrawerRef = useRef<any>(null);
   const handleOpenDrawer = () => {
