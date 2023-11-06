@@ -32,3 +32,12 @@ export function checkQrStatusApi(key: string) {
     },
   });
 }
+// 检测登录状态
+export function getUserInfoApi(uid: number) {
+  return request<API.Response>(`/api/user/detail`, {
+    method: 'post',
+    params: {
+      uid,
+    },
+  });
+}
