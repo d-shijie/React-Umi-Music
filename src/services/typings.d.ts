@@ -5,6 +5,7 @@ declare namespace API {
     data: any;
     success?: boolean;
     message: string;
+    [x: string]: any;
   }
   interface UserInfo {
     id?: string;
@@ -12,5 +13,6 @@ declare namespace API {
     nickName?: string;
     email?: string;
     gender?: UserGenderEnum;
+    [x: string]: any;
   }
 }

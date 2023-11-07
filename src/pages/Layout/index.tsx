@@ -58,11 +58,11 @@ const Layout: React.FC = () => {
 
   return (
     <div className="bg-[#eff0f3] h-[100vh] ">
-      <section className="p-[12px]">
+      <section>
         <Header openDrawer={handleOpenDrawer} />
       </section>
       <UserDrawer ref={userDrawerRef} qrUrl={qrUrl} status={status} />
-      <section className="p-[12px]">
+      <section>
         <Outlet />
       </section>
       <Footer />

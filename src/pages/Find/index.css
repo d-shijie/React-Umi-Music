@@ -5,8 +5,8 @@
 .test {
   position: absolute;
   bottom: 0 !important;
+}
 
-  li {
-    width: 10px !important;
-  }
+.test li {
+  width: 10px !important;
 }

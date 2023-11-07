@@ -1,18 +1,39 @@
-import { Card } from 'antd';
-
+import Slider from '@/components/Slider/Slider';
+import { getBannerApi } from '@/services/find';
+import { Carousel } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import './index.less';
+interface Banner {
+  pic: string;
+  url: string | null;
+  typeTitle: string;
+  [x: string]: any;
+}
 const Find: React.FC = () => {
+  const [banners, setBanners] = useState<Banner[]>();
+  const getBanners = () => {
+    getBannerApi().then((res) => {
+      setBanners(res.banners);
+    });
+  };
+
+  const sliderRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    getBanners();
+  }, []);
   return (
-    <div>
-      <Card className="flex justify-center items-center">
-        <div className="text-[#333a4e] text-[18px] tracking-wide font-bold">
-          伤心时要听慢歌
-        </div>
-        <div className="text-[#9b9fa9] mt-[4px] flex justify-center">
-          <span>3 关注</span>
-          <span className="mx-[10px]">4 粉丝</span>
-          <span>Lv.9</span>
-        </div>
-      </Card>
+    <div className="bg-[#fff] px-[12px]">
+      <Carousel autoplay dots={{ className: 'test' }}>
+        {banners?.map((item) => (
+          <div key={item.pic} className="relative">
+            <img className="rounded-lg" src={item.pic} alt="" />
+            <span className="absolute text-black right-[5px] bottom-[5px] text-[8px] px-[6px] py-[2px] rounded-lg bg-white">
+              {item.typeTitle}
+            </span>
+          </div>
+        ))}
+      </Carousel>
+      <Slider data={[]} ref={sliderRef} />
     </div>
   );
 };
