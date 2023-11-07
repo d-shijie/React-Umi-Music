@@ -3,7 +3,7 @@ import Button from '@/components/Button/Button';
 import { getUserInfoApi } from '@/services/user';
 import { RightOutlined } from '@ant-design/icons';
 import { Icon } from '@umijs/max';
-import { Drawer, List, QRCode } from 'antd';
+import { Drawer, List, QRCode, Switch } from 'antd';
 import React, { useEffect, useState } from 'react';
 interface Props {
   qrUrl: string;
@@ -50,6 +50,12 @@ const UserContent = (props: { userInfo: any }) => {
           className="mr-[4px]"
           icon="local:clound_bei"
         />
+      ),
+      suffix: (
+        <div className="text-[12px] text-[#d3d3d3]">
+          签到
+          <RightOutlined className="ml-[6px]" />
+        </div>
       ),
     },
     {
@@ -154,6 +160,7 @@ const UserContent = (props: { userInfo: any }) => {
           icon="local:setting"
         />
       ),
+      suffix: <Switch />,
     },
     {
       label: '定时关闭',
@@ -293,7 +300,7 @@ const UserContent = (props: { userInfo: any }) => {
         dataSource={list1}
         renderItem={(item) => (
           <List.Item>
-            <div className="flex items-center">
+            <div className="w-full flex items-center">
               <div className="flex items-center flex-1">
                 {item.prefix}
                 {item.label}
@@ -309,9 +316,8 @@ const UserContent = (props: { userInfo: any }) => {
         dataSource={list2}
         renderItem={(item) => (
           <List.Item>
-            {' '}
-            <div className="flex items-center">
-              <div className="flex items-center flex-1">
+            <div className="w-full  flex items-center justify-between">
+              <div className="flex items-center flex-1 ">
                 {item.prefix}
                 {item.label}
               </div>
