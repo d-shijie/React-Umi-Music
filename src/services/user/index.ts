@@ -41,3 +41,9 @@ export function getUserInfoApi(uid: number) {
     },
   });
 }
+// 退出登录
+export function logoutApi() {
+  return request<API.Response>(`/api/logout`, {
+    method: 'post',
+  });
+}

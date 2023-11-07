@@ -29,6 +29,7 @@ interface ListItem {
   prefix?: any;
 }
 const UserContent = (props: { userInfo: any }) => {
+  const { logout } = useModel('user');
   const list1: ListItem[] = [
     {
       label: '消息中心',
@@ -266,6 +267,10 @@ const UserContent = (props: { userInfo: any }) => {
       label: '关于',
     },
   ];
+
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <div className="p-[12px]">
       <div className="flex items-center">
@@ -364,7 +369,7 @@ const UserContent = (props: { userInfo: any }) => {
         bordered
         dataSource={['退出登录']}
         renderItem={(item) => (
-          <List.Item>
+          <List.Item onClick={handleLogout}>
             <div className="w-full flex justify-center text-[#e42007]">
               {item}
             </div>
@@ -385,13 +390,17 @@ const UserDrawer = React.forwardRef((props: Props, ref) => {
   React.useImperativeHandle(ref, () => ({
     onOpen,
   }));
-  const { loginStatus, setUserInfo, userInfo, userId } = useModel('user');
+  const { checkLoginStatus, setUserInfo, userInfo } = useModel('user');
+  const [loginStatus, setLoginStatus] = useState(false);
   useEffect(() => {
-    if (loginStatus) {
-      getUserInfoApi(userId as number).then((res) => {
-        setUserInfo(res);
-      });
-    }
+    checkLoginStatus((status, userId) => {
+      if (status) {
+        setLoginStatus(true);
+        getUserInfoApi(userId as number).then((res) => {
+          setUserInfo(res);
+        });
+      }
+    });
   }, []);
   return (
     <Drawer

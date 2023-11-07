@@ -10,10 +10,12 @@ const Layout: React.FC = () => {
   const [qrUrl, setQrUrl] = useState<string>('');
   const [status, setStatus] = useState<number>(801);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
+  const { checkLoginStatus } = useModel('user');
   const createQr = async (key: string) => {
     const { data } = await createQrApi(key);
     setQrUrl(data.qrurl);
   };
+
   const checkQrStatus = async (key: string) => {
     const { code, message: msg } = await checkQrStatusApi(key);
     setStatus(code);
@@ -37,12 +39,13 @@ const Layout: React.FC = () => {
     createQr(data.unikey);
     setTimer(setInterval(() => checkQrStatus(data.unikey), 2000));
   };
-  const { loginStatus } = useModel('user');
 
   useEffect(() => {
-    if (!loginStatus) {
-      createQrKey();
-    }
+    checkLoginStatus((status) => {
+      if (!status) {
+        createQrKey();
+      }
+    });
     return () => {
       clearInterval(timer);
     };
