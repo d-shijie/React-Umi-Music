@@ -1,5 +1,6 @@
 import Slider from '@/components/Slider/Slider';
-import { getBannerApi } from '@/services/find';
+import Title from '@/components/Title/Title';
+import { getBallApi, getBannerApi } from '@/services/find';
 import { Carousel } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import './index.less';
@@ -18,22 +19,33 @@ const Find: React.FC = () => {
   };
 
   const sliderRef = useRef<HTMLDivElement>(null);
+  const [balls, setBalls] = useState([]);
+  const getBalls = () => {
+    getBallApi().then((res) => {
+      setBalls(res.data);
+    });
+  };
+
   useEffect(() => {
     getBanners();
+    getBalls();
   }, []);
   return (
     <div className="bg-[#fff] px-[12px]">
       <Carousel autoplay dots={{ className: 'test' }}>
         {banners?.map((item) => (
-          <div key={item.pic} className="relative">
-            <img className="rounded-lg" src={item.pic} alt="" />
+          <div key={item.pic} className="relative ">
+            <img className="rounded-lg " src={item.pic} alt="" />
             <span className="absolute text-black right-[5px] bottom-[5px] text-[8px] px-[6px] py-[2px] rounded-lg bg-white">
               {item.typeTitle}
             </span>
           </div>
         ))}
       </Carousel>
-      <Slider data={[]} ref={sliderRef} />
+      <Slider data={balls} ref={sliderRef} />
+      <section>
+        <Title>推荐歌单</Title>
+      </section>
     </div>
   );
 };

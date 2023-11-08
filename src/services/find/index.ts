@@ -5,3 +5,8 @@ export async function getBannerApi() {
     method: 'get',
   });
 }
+export async function getBallApi() {
+  return request<API.Response>('/api/homepage/dragon/ball', {
+    method: 'get',
+  });
+}
