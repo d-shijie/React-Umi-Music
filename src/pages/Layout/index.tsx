@@ -66,7 +66,7 @@ const Layout: React.FC = () => {
         <Header openDrawer={handleOpenDrawer} />
       </section>
       <UserDrawer ref={userDrawerRef} qrUrl={qrUrl} status={status} />
-      <section>
+      <section className="h-[86vh] overflow-y-auto">
         <Outlet />
       </section>
       <Footer />
