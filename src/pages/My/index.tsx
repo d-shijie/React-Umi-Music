@@ -6,8 +6,8 @@ const My: React.FC = () => {
   console.log(userInfo);
 
   return (
-    <div>
-      <Card>
+    <div className="px-[12px]">
+      <Card className="mt-[34px]">
         <section className="flex flex-col justify-center items-center">
           <img
             className="rounded-full w-[58px] -top-[26px] absolute"
