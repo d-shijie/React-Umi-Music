@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 interface Props {
   data: any[];
+  handleClick: (data: any) => void;
 }
 const Slider = React.forwardRef((props: Props, ref) => {
   const scrollerRef = useRef(null);
@@ -19,6 +20,7 @@ const Slider = React.forwardRef((props: Props, ref) => {
       >
         {props.data.map((item, index) => (
           <div
+            onClick={() => props.handleClick(item)}
             key={item.id}
             style={{ transform: `translateX(${index * 100}%)` }}
             className="w-[20%] absolute flex justify-center items-center py-[6px] flex-col"
@@ -41,7 +43,7 @@ const Slider = React.forwardRef((props: Props, ref) => {
             width: (5 / props.data.length) * 100 + '%',
             transform: `translateX(100%)`,
           }}
-          className="h-[4px] rounded-full bg-[#e94d51] "
+          className="h-[4px] rounded-full bg-[#e94d51]"
         ></div>
       </div>
     </div>

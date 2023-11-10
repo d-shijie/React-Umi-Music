@@ -30,6 +30,10 @@ const Find: React.FC = () => {
     getBanners();
     getBalls();
   }, []);
+
+  const tagClick = (item: any) => {
+    console.log(item);
+  };
   return (
     <div className="bg-[#fff] px-[12px]">
       <Carousel autoplay dots={{ className: 'test' }}>
@@ -42,7 +46,11 @@ const Find: React.FC = () => {
           </div>
         ))}
       </Carousel>
-      <Slider data={balls} ref={sliderRef} />
+      <Slider
+        handleClick={(item) => tagClick(item)}
+        data={balls}
+        ref={sliderRef}
+      />
       <section>
         <Title>推荐歌单</Title>
       </section>
