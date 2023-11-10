@@ -13,6 +13,7 @@ const Layout: React.FC = () => {
   const { checkLoginStatus } = useModel('user');
   const createQr = async (key: string) => {
     const { data } = await createQrApi(key);
+
     setQrUrl(data.qrurl);
   };
 
@@ -31,6 +32,7 @@ const Layout: React.FC = () => {
         break;
       case 803:
         clearInterval(timer);
+        location.reload();
         break;
     }
   };
@@ -42,6 +44,8 @@ const Layout: React.FC = () => {
 
   useEffect(() => {
     checkLoginStatus((status) => {
+      console.log(status);
+
       if (!status) {
         createQrKey();
       }

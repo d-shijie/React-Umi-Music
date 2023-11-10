@@ -10,10 +10,13 @@ const useUser = () => {
     cb: (status?: boolean, userId?: number) => void,
   ) => {
     const { data } = await checkLoginStatusApi();
-    if (data.code !== 200) return;
-    setLoginStatus(data.code === 200);
-    setUserId(data.profile.userId);
-    cb(data.code === 200, data.profile.userId);
+    if (data.profile) {
+      setUserId(data.profile.userId);
+      cb(true, data.profile.userId);
+    } else {
+      cb(false);
+    }
+    setLoginStatus(!!data.profile);
   };
 
   const logout = () => {

@@ -394,6 +394,8 @@ const UserDrawer = React.forwardRef((props: Props, ref) => {
   const [loginStatus, setLoginStatus] = useState(false);
   useEffect(() => {
     checkLoginStatus((status, userId) => {
+      console.log(status);
+
       if (status) {
         setLoginStatus(true);
         getUserInfoApi(userId as number).then((res) => {
